@@ -86,9 +86,7 @@ export async function loadCharacterPackage(pkg) {
 		 * @param {string} name
 		 */
 		characterTaici(name) {
-			if (name != "spr_guanyu") {
-				return taici[name];
-			}
+			return taici[name];
 		},
 		skin: {
 			origin: URL.QHLY.CHARACTER_ASSETS,

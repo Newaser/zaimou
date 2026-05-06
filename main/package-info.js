@@ -27,9 +27,9 @@ packageInfo.intro = `
 	}
 </style>
 <span style="text-align: center;">
-  <h3 style="color: #def7ca;">
+  <h2 style="color: #def7ca;">
     谋攻未尽，再启风云。
-  </h3>
+  </h2>
   <h4 style="color: cyan;">
     扩展交流群：
 	<u class="clickable" onclick="${groupIdOnClick}", title="复制群号">

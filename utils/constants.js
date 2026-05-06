@@ -1,7 +1,7 @@
 import { lib } from "../../../noname.js";
 
 export const EXTENSION = {
-	ID: "zaimou",
+	ID: "zm",
 	NAME: "再谋篇",
 	NAME_PREFIX: "谋",
 };

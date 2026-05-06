@@ -152,3 +152,33 @@ export function chooseToViewAs(player, params) {
 
 	return next;
 }
+
+/**
+ * 改判
+ * @param {Player} player 改判者
+ * @param {GameEvent} event 改判事件
+ * @param {Card[]} rejudgings 用于改判的牌
+ * @returns {Promise<number>} 改判收益
+ */
+export async function rejudge(player, event, rejudgings) {
+	if (rejudgings.length == 0) {
+		throw new Error("改判牌数组为空");
+	}
+	const oldJudging = event.player.judging[0];
+	if (oldJudging.clone) {
+		oldJudging.clone.classList.remove("thrownhighlight");
+		game.broadcast(function (card) {
+			if (card.clone) {
+				card.clone.classList.remove("thrownhighlight");
+			}
+		}, oldJudging);
+		game.addVideo("deletenode", player, get.cardsInfo([oldJudging.clone]));
+	}
+	await game.cardsDiscard(oldJudging);
+	event.player.judging[0] = rejudgings[0];
+	event.orderingCards.addArray(rejudgings);
+	game.log(event.player, "的判定牌改为", rejudgings);
+	await game.delay(2);
+
+	return event.judge(rejudgings[0]) - event.judge(oldJudging);
+}
