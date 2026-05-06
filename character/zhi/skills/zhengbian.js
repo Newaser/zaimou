@@ -1,7 +1,7 @@
 import { SkillData } from "../../../utils/import.js";
 import { lib, game, ui, get, ai, _status } from "../../../../../noname.js";
 
-const derivation = ["mbdangyi", "lianpo"];
+const DERIVED_SKILLS = ["mbdangyi", "lianpo"];
 
 export default new SkillData("zm_zhengbian|政变", {
 	description:
@@ -62,18 +62,18 @@ export default new SkillData("zm_zhengbian|政变", {
 				/** @type {Result} */
 				const result2 = await player.chooseControl({
 					prompt: "政变：请选择一个技能获得",
-					controls: derivation,
+					controls: DERIVED_SKILLS,
 					ai(event, player) {
-						return derivation[0];
+						return DERIVED_SKILLS[0];
 					},
 				}).forResult();
 				await player.loseHp();
 				player.addSkill(result2.control);
 			} else {
 				await player.loseHp(2);
-				await player.addSkills(derivation);
+				await player.addSkills(DERIVED_SKILLS);
 			}
 		},
-		derivation,
+		derivation: DERIVED_SKILLS,
 	},
 });

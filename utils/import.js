@@ -502,6 +502,12 @@ export class CharacterPackage {
 				STYLE.EXTENSION_NAME_PREFIX,
 			);
 
+		// import package
+		game.import("character", () => this.pack());
+
+		// bind name with id
+		lib.translate[`${EXTENSION.ID}_character_config`] = EXTENSION.NAME;
+
 		this.subpkgs.forEach(pkg => {
 			pkg.setupRuntime1();
 		});

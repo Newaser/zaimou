@@ -4,9 +4,6 @@ import characterPackage from "../character/index.js";
 
 /** @type {importExtensionConfig['precontent']} */
 export const precontent = (data) => {
-	// add characters
-	game.import("character", () => characterPackage.pack());
-	lib.translate[`${EXTENSION.ID}_character_config`] = EXTENSION.NAME;
-
+	// set up character package
 	characterPackage.setupRuntime1();
 };

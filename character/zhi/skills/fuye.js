@@ -76,7 +76,7 @@ export default new SkillData("zm_fuye|辅业", {
 				forced: true,
 				locked: false,
 				trigger: {
-					player: "phaseJieshuBegin",
+					player: "phaseJieshu",
 				},
 				filter(event, player, name, target) {
 					return player.countMark("zm_fuye_mark") == 4;
