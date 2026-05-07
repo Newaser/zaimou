@@ -4,7 +4,7 @@ import { lib, game, ui, get, ai, _status } from "../../../../../noname.js";
 
 export default new SkillData("zm_fuye|辅业", {
 	description:
-		"<b>使命技</b>。①使命：其他角色受到伤害后，若伤害来源不为你或其，" +
+		"<b>使命技</b>，你的登场势力为魏。①使命：其他角色受到伤害后，若伤害来源不为你或其，" +
 		`其可以交给你一张牌，令来源对你造成1点${get.poptip("virtual_damage")}。` +
 		"②失败：结束阶段，若本局游戏你于回合外获得过至少四张牌，你获得" +
 		`${get.poptip("zm_zhengbian")}并休整一轮。`,
@@ -20,6 +20,7 @@ export default new SkillData("zm_fuye|辅业", {
 	skill: {
 		logAudio: util.logSkillAudio("zm_fuye", [1, 2]),
 		dutySkill: true,
+		initGroup: "wei",
 		trigger: {
 			global: "damageEnd",
 		},

@@ -10,6 +10,7 @@ export default new CharacterSubackage("zm_zhi|再谋篇·知")
 			group: "wei",
 			hp: 3,
 			skills: ["zm_fankui", "zm_guicai", "zm_fuye"],
+			doubleGroup: ["wei", "jin"],
 		}),
 		title: "重张区宇",
 		dieVoice: "筹谋半生事，逢日俱化空……",
