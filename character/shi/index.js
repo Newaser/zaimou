@@ -13,6 +13,6 @@ export default new CharacterSubackage("zm_shi|再谋篇·识")
 		}),
 		title: "征西将军",
 		dieVoice: "原来……你早有防备……",
-		rank: "a",
+		rank: "b",
 		rarity: "rare",
 	});
