@@ -4,7 +4,7 @@ import { SkillData } from "../../../utils/import.js";
 import { lib, game, ui, get, ai, _status } from "../../../../../noname.js";
 
 /**
- * 判断卡牌是否为默认目标牌
+ * 判断卡牌是否为固定目标牌
  * @param {Card | VCard | CardBaseUIData} card
  * @returns {boolean}
  */
