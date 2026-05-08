@@ -38,4 +38,17 @@ export default new CharacterSubackage("zm_yu|再谋篇·虞")
 				"吾破敌之策连环相扣，蜀军安能破之？",
 			],
 		},
+	})
+
+	.addCharacter("zm_zhuran|谋朱然", {
+		basic: new Character({
+			sex: "male",
+			group: "wu",
+			hp: 4,
+			skills: ["zm_danshou"],
+		}),
+		title: "镇守江陵",
+		dieVoice: "千里之堤，亦会溃于蚁穴……",
+		rank: "b",
+		rarity: "rare",
 	});
