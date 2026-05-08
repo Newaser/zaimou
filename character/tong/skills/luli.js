@@ -106,7 +106,8 @@ export default new SkillData("zm_luli|戮力", {
 			}).forResult();
 		},
 		async content(event, trigger, player) {
-			player.addTempSkill("zm_luli_used");
+			const expire = { global: ["phaseAnyAfter", "phaseAfter"] };
+			player.addTempSkill("zm_luli_used", expire);
 			const
 				to = event.targets[0],
 				card = trigger.card,

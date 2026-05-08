@@ -108,7 +108,7 @@ export default new SkillData("zm_qianxi|潜袭", {
 						},
 						ai1(card) {
 							if (get.attitude(player, to) < 0) {
-								return Infinity - get.value(card, player);
+								return 100 - get.value(card, player);
 							}
 							return -1;
 						},

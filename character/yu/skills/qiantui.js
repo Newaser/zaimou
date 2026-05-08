@@ -44,7 +44,7 @@ export default new SkillData("zm_qiantui|谦退", {
 						v2 = get.value(card, src);
 					if (get.attitude(player, src) > 0)
 						return - 0.9 * v1 + v2 + 0.1;
-					return Infinity - v1 - v2;
+					return 100 - v1 - v2;
 				},
 			}).forResult();
 		},
