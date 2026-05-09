@@ -54,7 +54,6 @@ export default new SkillData("zm_luli|戮力", {
 			 * @returns {boolean}
 			 */
 			const isTaishici = i => {
-				console.log(`names: ${[i.name, i.name1, i.name2].join(", ")}`);
 				return [i.name, i.name1, i.name2]
 					.some(j => j?.endsWith("taishici"));
 			};

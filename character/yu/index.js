@@ -40,6 +40,7 @@ export default new CharacterSubackage("zm_yu|再谋篇·虞")
 		},
 	})
 
+
 	.addCharacter("zm_zhuran|谋朱然", {
 		basic: new Character({
 			sex: "male",

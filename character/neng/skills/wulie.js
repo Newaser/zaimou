@@ -29,7 +29,7 @@ export default new SkillData("zm_wulie|武烈", {
 				const result = await to.chooseControl({
 					prompt: `武烈：你须获得1点护甲或与${get.translation(player)}各摸一张牌`,
 					controls: ["获得护甲", "一起摸牌"],
-					ai(event, player) {
+					ai(event, _) {
 						if (get.attitude(to, player) <= 0)
 							return "获得护甲";
 						const
