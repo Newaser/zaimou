@@ -16,9 +16,7 @@ export default new CharacterSubackage("zm_yu|再谋篇·虞")
 		dieVoice: "清玉岂容有污，今唯以死自证。",
 		rank: "s",
 		rarity: "legend",
-		runtime1(data) {
-			lib.characterSubstitute["zm_luxun"] = [["zm_luxun_awakened", []]];
-		},
+		inPackSubstitutes: ["zm_luxun_awakened"],
 	})
 	.addCharacter("zm_luxun_awakened|谋陆逊", {
 		basic: new Character({

@@ -132,6 +132,10 @@ export interface CharacterInfo {
 	 */
 	audioRedirect?: Record<string, string[]>;
 	/**
+	 * 此扩展内的武将替身（用于多形态武将）
+	 */
+	inPackSubstitutes?: string[];
+	/**
 	 * 武将包含的其他文本信息
 	 */
 	texts?: Record<string, string>;

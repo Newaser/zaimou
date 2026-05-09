@@ -1,3 +1,4 @@
+import * as util from "../../../utils/util.js";
 import { SkillData } from "../../../utils/import.js";
 import { lib, game, ui, get, ai, _status } from "../../../../../noname.js";
 
@@ -10,6 +11,7 @@ export default new SkillData("zm_tiaoxin|挑衅", {
 		"哼！既匹夫不战，不如归耕陇亩！",
 	],
 	skill: {
+		logAudio: util.logSkillAudio("zm_tiaoxin", 1),
 		trigger: {
 			global: "phaseUseBegin",
 		},
@@ -35,6 +37,8 @@ export default new SkillData("zm_tiaoxin|挑衅", {
 				},
 			).forResult();
 			if (result1.bool) {
+				util.playSkillAudio("zm_tiaoxin", 2, false, player);
+				player.line(to);
 				/** @type {Result} */
 				const result2 = await player.discardPlayerCard({
 					forced: true,

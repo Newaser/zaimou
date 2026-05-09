@@ -14,19 +14,10 @@ function isJiangwei(player) {
 /**
  * 
  * @param {Player} player 
- * @param {string} character 
- * @returns {boolean}
- */
-function hasSkin(player, character) {
-	return Object.values(player.skin || {}).includes(character);
-}
-
-/**
- * 
- * @param {Player} player 
  */
 async function gazing(player) {
-	if (!hasSkin(player, "zm_jiangwei_gazing")) {
+	if (!Object.values(player.skin || {})
+		.includes("zm_jiangwei_gazing")) {
 		util.playSkillAudio("zm_zhiji__zm_jiangwei_gazing", [1, 2], true, player);
 		player.changeSkin("zm_zhiji", "zm_jiangwei_gazing");
 		await game.delay();
@@ -95,6 +86,7 @@ export default new SkillData("zm_zhiji|志继", {
 			if (control != "星魂") {
 				/** @type {Result} */
 				const result = await player.chooseTarget({
+					forced: true,
 					prompt: "火计：选择一名其他角色，对其及与其势力相同的所有其他角色各造成1点火属性伤害",
 					filterTarget: lib.filter.notMe,
 				}).forResult();
@@ -142,9 +134,7 @@ export default new SkillData("zm_zhiji|志继", {
 				},
 				async content(event, trigger, player) {
 					if (player.countCards("h") == 0) {
-						if (player == _status.currentPhase) {
-							await gazing(player);
-						}
+						await gazing(player);
 					} else {
 						player.changeSkin("zm_zhiji", "zm_jiangwei");
 					}

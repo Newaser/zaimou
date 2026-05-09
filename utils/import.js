@@ -111,6 +111,17 @@ export class CharacterData extends AbstractData {
 	}
 
 	/**
+	 * 将武将替身注册到游戏内
+	 */
+	registerSubstitutes() {
+		const substitutes = this.info.inPackSubstitutes;
+		if (substitutes) {
+			lib.characterSubstitute[this.id] =
+				substitutes.map(s => [s, [`die:${URL.DIE_AUDIO}/${s}.mp3`]]);
+		}
+	}
+
+	/**
 	 * 绑定至同名武将替换序列
 	 */
 	registerCharacterReplace() {
@@ -325,6 +336,7 @@ export class CharacterSubackage {
 	 */
 	setupRuntime1() {
 		this.characters.forEach(character => {
+			character.registerSubstitutes();
 			character.info.runtime1?.(character.info);
 		});
 		this.skills.forEach(skill => {

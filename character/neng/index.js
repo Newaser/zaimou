@@ -1,3 +1,4 @@
+import { URL } from "../../utils/constants.js";
 import skills from "./skill-index.js";
 import { CharacterSubackage } from "../../utils/import.js";
 import { Character } from "../../../../noname/library/element/index.js";
@@ -30,14 +31,12 @@ export default new CharacterSubackage("zm_neng|再谋篇·能")
 		dieVoice: "剑阁戎声，残阳殷血，犹鉴丹心……",
 		rank: "am",
 		rarity: "epic",
-		runtime1(data) {
-			lib.characterSubstitute["zm_jiangwei"] = [
-				["zm_jiangwei_gazing", []],
-				["zm_jiangwei_wu", []],
-				["zm_jiangwei_wen", []],
-				["zm_jiangwei_beishui", []],
-			];
-		},
+		inPackSubstitutes: [
+			"zm_jiangwei_gazing",
+			"zm_jiangwei_wu",
+			"zm_jiangwei_wen",
+			"zm_jiangwei_beishui",
+		],
 	})
 	.addCharacter("zm_jiangwei_gazing|谋姜维", {
 		basic: new Character({
