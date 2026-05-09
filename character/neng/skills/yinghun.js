@@ -44,7 +44,7 @@ export default new SkillData("zm_yinghun|英魂", {
 	description: `一级：${descMap[1]}<br>二级：${descMap[2]}`,
 	dynamicDescription(player, desc) {
 		const level = player.getStorage("zm_yinghun");
-		return `<span class="greentext">（${get.cnNumber(level)}级）</span>` +
+		return `<span class="greentext">（${get.cnNumber(level, true)}级）</span>` +
 			`${descMap[level]}`;
 	},
 	voices: [
