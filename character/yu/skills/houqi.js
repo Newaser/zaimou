@@ -23,8 +23,8 @@ export default new SkillData("zm_houqi|后起", {
 		async content(event, trigger, player) {
 			player.awakenSkill(event.name);
 			player.changeSkin("zm_houqi", "zm_luxun_awakened");
-			player.removeSkill("zm_qiantui");
-			player.addSkill("zm_zongyan");
+			player.removeSkillLog("zm_qiantui");
+			player.addSkillLog("zm_zongyan");
 		},
 		ai: {
 			effect: {

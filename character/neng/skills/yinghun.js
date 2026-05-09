@@ -40,27 +40,6 @@ export function upgradeYinghun(player) {
 	return level;
 }
 
-/**
- * 英魂选目标的ai
- * @param {Player} target 
- * @returns 
- */
-export function yinghunCostAi(target) {
-	const player = get.player();
-	if (player.getDamagedHp() == 1 &&
-		target.countCards("he") == 0)
-		return 0;
-
-	const att = get.attitude(player, target);
-	if (att > 0) {
-		return 10 + att;
-	}
-	if (player.getDamagedHp() == 1) {
-		return -1;
-	}
-	return 1;
-}
-
 export default new SkillData("zm_yinghun|英魂", {
 	description: `一级：${descMap[1]}<br>二级：${descMap[2]}`,
 	dynamicDescription(player, desc) {
@@ -99,7 +78,21 @@ export default new SkillData("zm_yinghun|英魂", {
 				filterTarget(card, player, target) {
 					return player != target;
 				},
-				ai: yinghunCostAi,
+				ai(target) {
+					const player = get.player();
+					if (player.getDamagedHp() == 1 &&
+						target.countCards("he") == 0)
+						return 0;
+
+					const att = get.attitude(player, target);
+					if (att > 0) {
+						return 10 + att;
+					}
+					if (player.getDamagedHp() == 1) {
+						return -1;
+					}
+					return 1;
+				},
 			}).forResult();
 			if (result1.bool) {
 				let draw, discard;
@@ -127,7 +120,9 @@ export default new SkillData("zm_yinghun|英魂", {
 			}
 		},
 		async content(event, trigger, player) {
-			addUsedTimes(player);
+			if (event.triggername != "zm_xuanwei_fail") {
+				addUsedTimes(player);
+			}
 			const
 				to = event.targets[0],
 				{ draw, discard } = event.cost_data;
@@ -161,7 +156,7 @@ export default new SkillData("zm_yinghun|英魂", {
 			player.setStorage(skill, 1);
 		},
 		trigger: {
-			player: ["phaseZhunbeiBegin", "phaseJieshuBegin"],
+			player: ["phaseZhunbeiBegin", "phaseJieshuBegin", "zm_xuanwei_fail"],
 		},
 		subSkill: {
 			used: {

@@ -20,6 +20,8 @@ export default new SkillData("zm_fuye|辅业", {
 	skill: {
 		dutySkill: true,
 		initGroup: "wei",
+		trigger: {},
+		async content(event, trigger, player) { },
 		group: ["zm_fuye_main", "zm_fuye_fail", "zm_fuye_counter"],
 		subSkill: {
 			main: {
@@ -90,7 +92,7 @@ export default new SkillData("zm_fuye|辅业", {
 					player.removeSkill("zm_fuye_counter");
 					game.log(player, "使命失败");
 
-					player.addSkill("zm_zhengbian");
+					player.addSkillLog("zm_zhengbian");
 					player.rest({ type: "round", count: 1 });
 				},
 			},

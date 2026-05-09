@@ -25,7 +25,15 @@ export default new SkillData("zm_tiaoxin|挑衅", {
 		async content(event, trigger, player) {
 			const to = trigger.player;
 			/** @type {Result} */
-			const result1 = await player.chooseToCompare(to).forResult();
+			const result1 = await player.chooseToCompare(
+				to,
+				card => {
+					let ret = card.number || 0;
+					if (get.attitude(to, player) > 0)
+						ret = -ret;
+					return ret;
+				},
+			).forResult();
 			if (result1.bool) {
 				/** @type {Result} */
 				const result2 = await player.discardPlayerCard({

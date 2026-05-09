@@ -68,7 +68,7 @@ export default new SkillData("zm_zhengbian|政变", {
 					},
 				}).forResult();
 				await player.loseHp();
-				player.addSkill(result2.control);
+				player.addSkillLog(result2.control);
 			} else {
 				await player.loseHp(2);
 				await player.addSkills(DERIVED_SKILLS);

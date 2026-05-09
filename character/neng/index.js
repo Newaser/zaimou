@@ -10,7 +10,7 @@ export default new CharacterSubackage("zm_neng|再谋篇·能")
 			sex: "male",
 			group: "wu",
 			hp: 4,
-			skills: ["zm_polu", "zm_xuanwei", "zm_wulie"],
+			skills: ["zm_polu", "zm_xuanwei"],
 		}),
 		title: "武烈开疆",
 		dieVoice: "吾身虽死，忠勇须传……",
