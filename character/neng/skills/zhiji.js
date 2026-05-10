@@ -141,6 +141,9 @@ export default new SkillData("zm_zhiji|志继", {
 				},
 			},
 		},
+		ai: {
+			fireAttack: true,
+		},
 		derivation: ["zm_huoji", "mbxinghun"],
 	},
 });
