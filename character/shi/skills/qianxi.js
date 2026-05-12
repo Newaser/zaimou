@@ -32,6 +32,7 @@ export default new SkillData("zm_qianxi|潜袭", {
 			const result = await player.chooseToDiscard({
 				forced: true,
 				selectCard: [1, 2],
+				position: "he",
 				ai(card) {
 					if (ui.selected.cards.length > 0)
 						return -1;
