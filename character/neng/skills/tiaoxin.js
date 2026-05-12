@@ -45,8 +45,8 @@ export default new SkillData("zm_tiaoxin|挑衅", {
 					target: to,
 					position: "he",
 				}).forResult();
-				const cards = result2.cards.filterInD("d");
-				if (cards.length > 0) {
+				const cards = result2.cards?.filterInD("d");
+				if (cards?.length > 0) {
 					/** @type {Result} */
 					const result3 = await player.chooseBool({
 						prompt: `挑衅：是否获得${get.translation(cards)}`,
