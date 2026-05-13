@@ -15,14 +15,14 @@ const descMap = {
  * @returns {number}
  */
 function getUsedTimes(player) {
-	player.addTempSkill("zm_yinghun_used");
-	return player.storage.zm_yinghun_used;
+	return player.storage.zm_yinghun_used || 0;
 }
 /**
  * 
  * @param {Player} player 
  */
 function addUsedTimes(player) {
+	player.addTempSkill("zm_yinghun_used");
 	player.storage.zm_yinghun_used++;
 }
 
@@ -65,7 +65,7 @@ export default new SkillData("zm_yinghun|英魂", {
 		},
 		async cost(event, trigger, player) {
 			const
-				x = get.player().getDamagedHp(),
+				x = player.getDamagedHp(),
 				cnX = get.cnNumber(x, true),
 				controls = [`摸${cnX}弃一`, `摸一弃${cnX}`],
 				prompt2 = x == 1 ?
@@ -79,19 +79,33 @@ export default new SkillData("zm_yinghun|英魂", {
 					return player != target;
 				},
 				ai(target) {
-					const player = get.player();
-					if (player.getDamagedHp() == 1 &&
-						target.countCards("he") == 0)
-						return 0;
+					const
+						IDEAL_HE = 4,
+						RECAST_EFF = 0.5,
+						EXTRA_EFF = 0.15,
 
-					const att = get.attitude(player, target);
-					if (att > 0) {
-						return 10 + att;
-					}
-					if (player.getDamagedHp() == 1) {
-						return -1;
-					}
-					return 1;
+						isFriend = get.attitude(player, target) > 0,
+						y = player.getDamagedHp() - 1,
+
+						heBefore = target.countCards("he"),
+						deltaCards = isFriend ? y : -Math.min(y, heBefore),
+						heAfter = heBefore + deltaCards,
+
+						extraEff = isFriend ?
+							// heAfter 越接近 IDEAL_HE 收益越高
+							EXTRA_EFF / (1 + Math.pow(heAfter - IDEAL_HE, 2)) :
+							// heAfter 越少收益越高
+							EXTRA_EFF / (1 + heAfter);
+
+					let mainEff =
+						// 牌差收益
+						deltaCards +
+						// 制衡收益
+						RECAST_EFF * heAfter / (1 + heAfter);
+					if (!isFriend) mainEff = - mainEff;
+
+					if (mainEff == 0) return 0;
+					return mainEff + extraEff;
 				},
 			}).forResult();
 			if (result1.bool) {
