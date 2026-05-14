@@ -52,8 +52,8 @@ export default new CharacterSubackage("zm_neng|再谋篇·能")
 		rarity: "epic",
 		audioRedirect: {
 			"zm_zhiji": [
-				"北定中原终有日！",
 				"虽至绝境，吾亦有奇略可施。",
+				"而今夙志未偿，更应竭尽所能！",
 			],
 		},
 	})
@@ -75,7 +75,7 @@ export default new CharacterSubackage("zm_neng|再谋篇·能")
 				"大业若不能成，何面以见汉室英烈！",
 			],
 			"zm_huoji": [
-				"此炬虽未星火，然终有燎原之日。",
+				"此炬虽为星火，然终有燎原之日。",
 				"天下今幽，维当燃犀，以身照夜。",
 			],
 		},
