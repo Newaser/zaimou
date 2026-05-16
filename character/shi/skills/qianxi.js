@@ -6,7 +6,7 @@ export default new SkillData("zm_qianxi|潜袭", {
 	description:
 		"当你使用【杀】指定目标后，你可以摸一张牌并弃置1~2张牌，" +
 		"目标角色本回合不能使用或打出与弃置的牌颜色相同的牌。" +
-		"每回合限一次，当其他角色回复或失去体力后，" +
+		"每回合限一次，当其他角色回复体力后，" +
 		"你可以将一张牌当无次数限制且无视防具的普通【杀】对其使用。",
 	voices: [
 		"叛夫小儿，快快授首！",
@@ -75,7 +75,7 @@ export default new SkillData("zm_qianxi|潜袭", {
 		subSkill: {
 			ambush: {
 				trigger: {
-					global: ["recoverEnd", "loseHpEnd"],
+					global: "recoverEnd",
 				},
 				filter(event, player, name, target) {
 					return !player.hasSkill("zm_qianxi_used") &&
