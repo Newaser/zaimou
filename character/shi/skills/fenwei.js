@@ -24,7 +24,7 @@ export function fenweiCheckRestore(type, event, player) {
 export default new SkillData("zm_fenwei|奋威", {
 	description:
 		"<b>限定技</b>，当一张牌指定多个目标时，你可以取消其中任意个目标。" +
-		"然后当你执行所有“奇袭”效果后，此技能视为未发动过。",
+		"然后当你执行过所有“奇袭”效果后，此技能视为未发动过。",
 	voices: [
 		"舍身护主，扬吴将之风！",
 		"袭军挫阵，奋江东之威！",
