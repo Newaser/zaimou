@@ -106,7 +106,7 @@ export default new SkillData("zm_qixi|奇袭", {
 						/** @type {Result} */
 						const result = await player.chooseButton({
 							createDialog: [
-								`你可以对${get.translation(to)}执行任意项`,
+								`奇袭：你可以对${get.translation(to)}执行任意项`,
 								[areas.map(i => [i, effectMap[i]]), "textbutton"],
 							],
 							selectButton: [1, areas.length],
@@ -142,5 +142,20 @@ export default new SkillData("zm_qixi|奇袭", {
 				},
 			},
 		},
+	},
+});
+
+export const qixi_test1 = new SkillData("zm_qixi_test1|全弃", {
+	description: "出牌阶段，弃置一名角色区域内的所有牌。",
+	skill: {
+		enable: "phaseUse",
+		filterTarget: true,
+		async content(event, trigger, player) {
+			event.target.discard({
+				cards: event.target.getCards("hej"),
+				discarder: player,
+			});
+		},
+		prompt: "弃置一名角色区域内所有牌",
 	},
 });

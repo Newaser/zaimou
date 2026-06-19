@@ -22,6 +22,7 @@ export default new CharacterSubackage("zm_shi|再谋篇·识")
 			group: "wu",
 			hp: 4,
 			skills: ["zm_qixi", "zm_fenwei"],
+			// skills: ["zm_qixi", "zm_fenwei", "zm_qixi_test1", "rongbei"],
 		}),
 		title: "兴王定霸",
 		dieVoice: "蛮将休得猖狂，呃……啊……",
