@@ -25,6 +25,6 @@ export default new CharacterSubackage("zm_shi|再谋篇·识")
 		}),
 		title: "兴王定霸",
 		dieVoice: "蛮将休得猖狂，呃……啊……",
-		rank: "bp",
-		rarity: "rare",
+		rank: "a",
+		rarity: "epic",
 	});

@@ -1,99 +1,146 @@
 import { SkillData } from "../../../utils/import.js";
 import { lib, game, ui, get, ai, _status } from "../../../../../noname.js";
+import { fenweiCheckRestore } from "./fenwei.js";
+
+/**
+ * 获取一些牌中所有装备牌对应的装备栏集合
+ * @param {Card[]} cards 
+ * @param {boolean} [translate=false] 是否翻译装备栏名
+ * @returns {string[]}
+ */
+function getEquipSlots(cards, translate = false) {
+	let subtypes = [];
+	cards.forEach(i => {
+		const subtype = get.subtype(i);
+		if (get.type(i) == "equip" && subtype)
+			return subtypes.add(subtype);
+	});
+	if (translate) subtypes = subtypes.map(i => `${get.translation(i)}栏`);
+	return subtypes;
+}
+
+const BR = "<br>&nbsp;&nbsp;&nbsp;&nbsp;";
 
 export default new SkillData("zm_qixi|奇袭", {
 	description:
-		`当你使用【杀】时，你可以为此【杀】秘密添加一个${get.poptip("zm_qixi_effects")}（回合外添加的效果翻倍）。`,
+		"你可以将一张黑色牌当【过河拆桥】使用。当你弃置一名角色的一个区域内最后的牌时，可以执行对应效果：" +
+		`${BR}手牌区，对该角色造成1点伤害；` +
+		`${BR}装备区，废除此区域内这些牌对应的装备栏；` +
+		`${BR}判定区，废除之。`,
 	voices: [
 		"击敌不备，奇袭拔寨！",
 		"轻羽透重铠，奇袭溃坚城！",
 	],
-	texts: {
-		"(poptip)zm_qixi_effects|“奇袭”效果":
-			"<b>神箭射却</b>：造成的伤害+1。" +
-			"<br><b>百骑劫营</b>：被目标角色使用的【闪】抵消时，你获得其一张牌。",
-	},
 	skill: {
-		trigger: { player: "useCard" },
-		filter(event, player, name, target) {
-			return event.card.name == "sha";
-		},
-		async cost(event, trigger, player) {
-			const num = _status.currentPhase == player ? 1 : 2;
-			/** @type {Result} */
-			const result = await player.chooseControlList({
-				prompt:
-					`###${get.prompt("zm_qixi")}###` +
-					"为此【杀】添加一个“奇袭”效果",
-				list: [
-					`（神箭射却）造成的伤害+${num}`,
-					`（百骑劫营）被目标角色使用的【闪】抵消时，你获得其${get.cnNumber(num)}张牌`,
-				],
-				ai(event, player) {
-					if (event.targets.every(p => get.attitude(player, p) > 0)) {
-						return "cancel2";
-					}
-					let zeroIsBetter = 0;
-					let oneIsBetter = 0;
-					for (const target of event.targets) {
-						if (target.mayHaveShan(player, "use") == (get.attitude(player, target) > 0)) {
-							zeroIsBetter++;
-						} else {
-							oneIsBetter++;
-						}
-					}
-					if (zeroIsBetter >= oneIsBetter) {
-						return 0;
-					}
-					return 1;
-				},
-			}).forResult();
-			if (result.control != "cancel2") {
-				event.result = {
-					bool: true,
-					cost_data: { index: result.index },
-				};
+		enable: "chooseToUse",
+		viewAs: { name: "guohe" },
+		viewAsFilter(player) {
+			if (!player.countCards("hes", { color: "black" })) {
+				return false;
 			}
 		},
-		async content(event, trigger, player) {
-			trigger.card.storage.zm_qixi = [event.cost_data.index, false];
+		filterCard(card, player) {
+			return get.color(card, player) == "black";
 		},
-		group: ["zm_qixi_sharpen", "zm_qixi_steal"],
+		position: "hes",
+		prompt: "将一张黑色牌当过河拆桥使用",
+		/**
+		 * @type {(card: Card) => number | boolean | void}
+		 */
+		check(card) {
+			return 4 - get.value(card);
+		},
+		group: "zm_qixi_discard",
 		subSkill: {
-			sharpen: {
-				charlotte: true,
-				direct: true,
-				trigger: { source: "damageBegin1" },
+			discard: {
+				audio: "zm_qixi",
+				trigger: { global: ["loseAfter", "loseAsyncAfter"] },
 				filter(event, player, name, target) {
-					return event.card?.storage?.zm_qixi?.[0] == 0;
+					const to = event.player;
+					return event.type == "discard" &&
+						to.isIn() &&
+						event.discarder == player &&
+						[..."hej"].some(i =>
+							event.getl(to)[`${i}s`].length > 0 &&
+							to.countCards(i) == 0,
+						);
+				},
+				async cost(event, trigger, player) {
+					const
+						to = trigger.player,
+						areas = [..."hej"].filter(i =>
+							trigger.getl(to)[`${i}s`].length > 0 &&
+							to.countCards(i) == 0,
+						),
+						effectMap = {
+							"h": "对其造成1点伤害",
+							"e": `废除其${getEquipSlots(trigger.getl(to).es, true).join("、")}`,
+							"j": "废除其判定区",
+						},
+						aiMap = {
+							"h": () => get.damageEffect(to, player, player) > 0,
+							"e": () => get.attitude(player, to) <= 0,
+							"j": () => {
+								let ret = get.attitude(player, to) > 0;
+								if (to.hasSkill("xinfu_limu")) ret = !ret;
+								return ret;
+							},
+						};
+
+					if (areas.length == 1) {
+						const area = areas[0];
+						/** @type {Result} */
+						const result = await player.chooseBool({
+							prompt: get.prompt("zm_qixi", to),
+							prompt2: effectMap[area],
+							choice: aiMap[area],
+						}).forResult();
+						if (result.bool) {
+							event.result = {
+								bool: true,
+								targets: [to],
+								cost_data: { areas },
+							};
+						}
+					} else {
+						/** @type {Result} */
+						const result = await player.chooseButton({
+							createDialog: [
+								`你可以对${get.translation(to)}执行任意项`,
+								[areas.map(i => [i, effectMap[i]]), "textbutton"],
+							],
+							selectButton: [1, areas.length],
+							ai(button) {
+								return Number(aiMap[button]);
+							},
+						}).forResult();
+						if (result.bool) {
+							event.result = {
+								bool: true,
+								targets: [to],
+								cost_data: { areas: result.links },
+							};
+						}
+					}
 				},
 				async content(event, trigger, player) {
-					trigger.card.storage.zm_qixi[1] = true;
-					trigger.num += _status.currentPhase == player ? 1 : 2;
+					const
+						to = trigger.player,
+						/** @type {string[]} */
+						areas = event.cost_data.areas;
+					for (const area of areas) {
+						if (area == "h") {
+							await to.damage();
+						} else if (area == "e") {
+							await to.disableEquip({ slots: getEquipSlots(trigger.getl(to).es), source: player });
+						} else {
+							await to.disableJudge();
+						}
+						// “奋威”相关
+						fenweiCheckRestore(area, event, player);
+					}
 				},
 			},
-			steal: {
-				charlotte: true,
-				direct: true,
-				trigger: { player: "shaMiss" },
-				filter(event, player, name, target) {
-					return event.card.storage?.zm_qixi?.[0] == 1;
-				},
-				async content(event, trigger, player) {
-					trigger.card.storage.zm_qixi[1] = true;
-					const num = _status.currentPhase == player ? 1 : 2;
-					await player.gainPlayerCard({
-						prompt: `奇袭：选择获得${get.translation(trigger.player)}的${get.cnNumber(num)}张牌`,
-						forced: true,
-						target: trigger.target,
-						position: "he",
-						selectButton: num,
-					});
-				},
-			},
-		},
-		ai: {
-			damageBonus: true,
 		},
 	},
 });
