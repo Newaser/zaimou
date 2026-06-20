@@ -93,7 +93,7 @@ export default new SkillData("zm_qixi|奇袭", {
 						const result = await player.chooseBool({
 							prompt: get.prompt("zm_qixi", to),
 							prompt2: effectMap[area],
-							choice: aiMap[area],
+							choice: aiMap[area](),
 						}).forResult();
 						if (result.bool) {
 							event.result = {
@@ -111,7 +111,7 @@ export default new SkillData("zm_qixi|奇袭", {
 							],
 							selectButton: [1, areas.length],
 							ai(button) {
-								return Number(aiMap[button]);
+								return Number(aiMap[button]());
 							},
 						}).forResult();
 						if (result.bool) {
@@ -157,5 +157,20 @@ export const qixi_test1 = new SkillData("zm_qixi_test1|全弃", {
 			});
 		},
 		prompt: "弃置一名角色区域内所有牌",
+	},
+});
+
+export const qixi_test2 = new SkillData("zm_qixi_test2|令弃", {
+	description: "出牌阶段，令一名角色弃置其区域内的所有牌。",
+	skill: {
+		enable: "phaseUse",
+		filterTarget: true,
+		async content(event, trigger, player) {
+			event.target.discard({
+				cards: event.target.getCards("hej"),
+				discarder: event.target,
+			});
+		},
+		prompt: "令一名角色弃置其区域内所有牌",
 	},
 });
