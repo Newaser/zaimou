@@ -35,7 +35,9 @@ export default new SkillData("zm_fenwei|奋威", {
 		animationColor: "wood",
 		trigger: { global: "useCardToPlayer" },
 		filter(event, player, name, target) {
-			return event.targets.length > 1;
+			return event.isFirstTarget &&
+				event.targets.length > 1 &&
+				!get.info(event.card).multitarget;
 		},
 		async cost(event, trigger, player) {
 			event.result = await player.chooseTarget({
@@ -52,7 +54,6 @@ export default new SkillData("zm_fenwei|奋威", {
 		},
 		async content(event, trigger, player) {
 			player.awakenSkill(event.name);
-			// player.storage.zm_fenwei_restorer = new FenweiRestorer(player);
 			player.addSkill("zm_fenwei_restorer");
 			trigger.getParent()?.excluded.addArray(event.targets);
 		},
