@@ -7,7 +7,7 @@ import { lib, game, ui, get, ai, _status } from "../../../../../noname.js";
  * @param {GameEvent} event 
  * @param {Player} player 
  */
-export function fenweiCheckRestore(type, event, player) {
+export async function fenweiCheckRestore(type, event, player) {
 	const
 		restorer = "zm_fenwei_restorer",
 		allTypes = ["h", "e", "j"];
@@ -17,7 +17,7 @@ export function fenweiCheckRestore(type, event, player) {
 	player.storage[restorer].add(type);
 	player.markSkill(restorer);
 	if (allTypes.every(t => player.storage[restorer].includes(t))) {
-		event.trigger("zm_fenwei_restore");
+		await event.trigger("zm_fenwei_restore");
 	}
 }
 

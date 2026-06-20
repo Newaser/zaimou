@@ -55,19 +55,27 @@ export default new SkillData("zm_qixi|奇袭", {
 			discard: {
 				audio: "zm_qixi",
 				trigger: { global: ["loseAfter", "loseAsyncAfter"] },
+				getIndex(event, player, triggername) {
+					if (triggername == "loseAfter")
+						return [event.player];
+					return game.players.slice().sortBySeat(_status.currentPhase);
+				},
 				filter(event, player, name, target) {
-					const to = event.player;
-					return event.type == "discard" &&
-						to.isIn() &&
+					return target?.isIn() &&
+						event.type == "discard" &&
 						event.discarder == player &&
 						[..."hej"].some(i =>
-							event.getl(to)[`${i}s`].length > 0 &&
-							to.countCards(i) == 0,
+							event.getl(target)[`${i}s`].length > 0 &&
+							target.countCards(i) == 0,
 						);
+				},
+				logTarget(event, player, triggername, target) {
+					return target;
 				},
 				async cost(event, trigger, player) {
 					const
-						to = trigger.player,
+						/** @type {Player} */
+						to = event.indexedData,
 						areas = [..."hej"].filter(i =>
 							trigger.getl(to)[`${i}s`].length > 0 &&
 							to.countCards(i) == 0,
@@ -125,7 +133,7 @@ export default new SkillData("zm_qixi|奇袭", {
 				},
 				async content(event, trigger, player) {
 					const
-						to = trigger.player,
+						to = event.targets[0],
 						/** @type {string[]} */
 						areas = event.cost_data.areas;
 					for (const area of areas) {
@@ -137,7 +145,7 @@ export default new SkillData("zm_qixi|奇袭", {
 							await to.disableJudge();
 						}
 						// “奋威”相关
-						fenweiCheckRestore(area, event, player);
+						await fenweiCheckRestore(area, event, player);
 					}
 				},
 			},
@@ -145,13 +153,13 @@ export default new SkillData("zm_qixi|奇袭", {
 	},
 });
 
-export const qixi_test1 = new SkillData("zm_qixi_test1|全弃", {
+export const qixi_test1 = new SkillData("zm_qixi_test1|我弃", {
 	description: "出牌阶段，弃置一名角色区域内的所有牌。",
 	skill: {
 		enable: "phaseUse",
 		filterTarget: true,
 		async content(event, trigger, player) {
-			event.target.discard({
+			await event.target.discard({
 				cards: event.target.getCards("hej"),
 				discarder: player,
 			});
@@ -160,17 +168,33 @@ export const qixi_test1 = new SkillData("zm_qixi_test1|全弃", {
 	},
 });
 
-export const qixi_test2 = new SkillData("zm_qixi_test2|令弃", {
+export const qixi_test2 = new SkillData("zm_qixi_test2|他弃", {
 	description: "出牌阶段，令一名角色弃置其区域内的所有牌。",
 	skill: {
 		enable: "phaseUse",
 		filterTarget: true,
 		async content(event, trigger, player) {
-			event.target.discard({
+			await event.target.discard({
 				cards: event.target.getCards("hej"),
 				discarder: event.target,
 			});
 		},
 		prompt: "令一名角色弃置其区域内所有牌",
+	},
+});
+
+export const qixi_test3 = new SkillData("zm_qixi_test3|多弃", {
+	description: "出牌阶段，弃置任意名角色区域内的所有牌。",
+	skill: {
+		enable: "phaseUse",
+		filterTarget: true,
+		selectTarget: [1, Infinity],
+		async content(event, trigger, player) {
+			await game.loseAsync({
+				lose_list: event.targets.map(i => [i, i.getCards("hej")]),
+				discarder: player,
+			}).setContent("discardMultiple");
+		},
+		prompt: "弃置任意名角色区域内所有牌",
 	},
 });
