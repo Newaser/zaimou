@@ -73,10 +73,10 @@ export default new SkillData("zm_fenwei|奋威", {
 					player.restoreSkill("zm_fenwei");
 					player.removeSkill(event.name);
 				},
+				ai: {
+					combo: "zm_qixi",
+				},
 			},
-		},
-		ai: {
-			combo: "zm_qixi",
 		},
 	},
 });
