@@ -23,7 +23,7 @@ const BR = "<br>&nbsp;&nbsp;&nbsp;&nbsp;";
 
 export default new SkillData("zm_qixi|奇袭", {
 	description:
-		"你可以将一张黑色牌当【过河拆桥】使用。当你弃置一名角色的一个区域内最后的牌时，可以执行对应效果：" +
+		"你可以将一张黑色牌当【过河拆桥】使用。当你弃置一名角色的一个区域内最后的牌后，你可以执行对应区域的“奇袭”效果：" +
 		`${BR}手牌区，对该角色造成1点伤害；` +
 		`${BR}装备区，废除此区域内这些牌对应的装备栏；` +
 		`${BR}判定区，废除之。`,
@@ -145,7 +145,7 @@ export default new SkillData("zm_qixi|奇袭", {
 							await to.disableJudge();
 						}
 						// “奋威”相关
-						await fenweiCheckRestore(area, event, player);
+						await fenweiCheckRestore(event, player);
 					}
 				},
 			},
