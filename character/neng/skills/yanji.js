@@ -26,6 +26,7 @@ export default new SkillData("zm_yanji|掩计", {
 				return `${player.countCharge()}/${player.getMaxCharge()}`;
 			},
 		},
+		trigger: {},
 		group: [
 			"zm_yanji_defense",
 			"zm_yanji_attack",

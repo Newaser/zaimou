@@ -11,7 +11,7 @@ function gainMaxCharge(player, num) {
 }
 
 export default new SkillData("zm_kexian|克险", {
-	description: "当你受到伤害时，你可以减1点体力上限并防止之，然后你加1点蓄力上限并获得1点蓄力。",
+	description: "当你受到伤害时，你可以防止之。若如此做，你减1点体力上限并加1点蓄力上限。",
 	voices: [
 		"蜀地天险，岂挡我军去路！",
 		"今马革山已取，众将随我冲！",
@@ -20,11 +20,10 @@ export default new SkillData("zm_kexian|克险", {
 		chargeSkill: 0,
 		trigger: { player: "damageBegin4" },
 		async content(event, trigger, player) {
-			await player.loseMaxHp();
 			trigger.cancel();
+			await player.loseMaxHp();
 			game.log(player, "的蓄力值上限+1");
 			player.addMark("zm_kexian", 1, false);
-			player.addCharge(1);
 			if (player.hasSkill("zm_yaoji"))
 				player.markSkill("zm_yanji");
 		},

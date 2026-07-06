@@ -144,6 +144,6 @@ export default new CharacterSubackage("zm_neng|再谋篇·能")
 		}),
 		title: "克险图功",
 		dieVoice: "功高盖主，咎由自取……",
-		rank: "b",
-		rarity: "rare",
+		rank: "s",
+		rarity: "legend",
 	});

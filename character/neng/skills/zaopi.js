@@ -3,28 +3,22 @@ import { SkillData } from "../../../utils/import.js";
 import { lib, game, ui, get, ai, _status } from "../../../../../noname.js";
 
 export default new SkillData("zm_zaopi|凿辟", {
-	description:
-		"<b>限定技</b>，准备阶段，若你的蓄力点已满，你可以受到1点无来源伤害，" +
-		"然后视为使用一张【瞒天过海】。此后你使用牌无距离限制。",
+	description: "准备阶段，你可以失去1点体力并视为使用一张【瞒天过海】。此后你与其他角色的距离-1。",
 	voices: [
 		"凿山开险，破蜀建功！",
 		"明战于剑阁，暗渡于阴平！",
 	],
 	skill: {
-		limited: true,
-		skillAnimation: true,
-		animationColor: "thunder",
 		trigger: { player: "phaseZhunbeiBegin" },
 		filter(event, player, name, indexedData) {
-			return player.countCharge(true) == 0;
+			return player.hp > 0;
 		},
 		check(event, player) {
-			// TODO
-			return false;
+			return player.hp > 1 &&
+				player.getUseValue("dz_mantianguohai") > 0;
 		},
 		async content(event, trigger, player) {
-			player.awakenSkill(event.name);
-			await player.damage({ nosource: true });
+			await player.loseHp();
 			const mtgh = { name: "dz_mantianguohai", isCard: true };
 			if (player.hasUseTarget(mtgh)) {
 				await util.chooseToViewAs(player, {
@@ -49,17 +43,16 @@ export default new SkillData("zm_zaopi|凿辟", {
 					},
 				});
 			}
-			player.addSkill("zm_zaopi_unlimited");
+			player.addMark("zm_zaopi_unlimited");
 		},
 		subSkill: {
 			unlimited: {
-				mark: true,
 				intro: {
-					content: "使用牌无距离限制",
+					content: "你计算与其他角色的距离-#",
 				},
 				mod: {
-					targetInRange(card, player, target, result) {
-						return true;
+					globalFrom(from, to, current) {
+						return current - from.countMark("zm_zaopi_unlimited");
 					},
 				},
 			},
