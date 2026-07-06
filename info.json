@@ -2,12 +2,12 @@
 	"name": "再谋篇",
 	"author": "Newaser",
 	"intro": "",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"diskURL": "",
 	"forumURL": "",
 	"sourceURL": "https://github.com/Newaser/zaimou.git",
 	"groupId": "1004740158",
-	"lastUpdated": "2026-06-22",
+	"lastUpdated": "2026-07-07",
 	"minNoname": "1.11.3",
 	"adaptedExts": [
 		"千幻聆音"
