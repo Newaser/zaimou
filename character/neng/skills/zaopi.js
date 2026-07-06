@@ -13,7 +13,7 @@ export default new SkillData("zm_zaopi|凿辟", {
 		filter(event, player, name, indexedData) {
 			return player.hp > 0;
 		},
-		check(event, player) {
+		check(event, player, triggername, indexedData) {
 			return player.hp > 1 &&
 				player.getUseValue("dz_mantianguohai") > 0;
 		},

@@ -19,6 +19,9 @@ export default new SkillData("zm_kexian|克险", {
 	skill: {
 		chargeSkill: 0,
 		trigger: { player: "damageBegin4" },
+		check(event, player, triggername, indexedData) {
+			return player.isDamaged();
+		},
 		async content(event, trigger, player) {
 			trigger.cancel();
 			await player.loseMaxHp();
@@ -31,6 +34,10 @@ export default new SkillData("zm_kexian|克险", {
 			maxCharge(player, num) {
 				return num + player.countMark("zm_kexian");
 			},
+		},
+		ai: {
+			maixie: true,
+			maixie_defend: true,
 		},
 	},
 });

@@ -44,8 +44,11 @@ export default new SkillData("zm_yanji|掩计", {
 					return player.countCharge(true) > 0;
 				},
 				check(event, player, triggername, indexedData) {
-					// TODO
-					return false;
+					return ![
+						"sha", "shunshou", "wuzhong",
+						"juedou", "wanjian", "nanman",
+						"lebu",
+					].includes(event.card.name);
 				},
 				async content(event, trigger, player) {
 					player.addCharge();
@@ -76,7 +79,18 @@ export default new SkillData("zm_yanji|掩计", {
 							max: player.countCharge(),
 						}],
 						processAI(event) {
-							// TODO
+							const max = player.countCharge(),
+								cardName = trigger.card.name,
+								target = trigger.targets[0];
+							if (cardName == "sha" || cardName == "juedou") {
+								return [Math.min(target.hp, max)];
+							}
+							if (cardName == "shunshou") {
+								return [Math.min(target.countCards("he"), max)];
+							}
+							if (cardName == "wuzhong") {
+								return [max];
+							}
 							return false;
 						},
 					}).forResult();
@@ -96,6 +110,14 @@ export default new SkillData("zm_yanji|掩计", {
 
 					// @ts-expect-error effectCount肯定存在
 					trigger.getParent().effectCount += num;
+				},
+				mod: {
+					aiOrder(player, card, number) {
+						if (player.countCharge() > 0 &&
+							["sha", "juedou", "shunshou", "wuzhong"].includes(card.name)) {
+							return number + 10;
+						}
+					},
 				},
 			},
 		},
