@@ -132,4 +132,18 @@ export default new CharacterSubackage("zm_neng|再谋篇·能")
 			lib.skill["mbxinghun"].audioname2["zm_jiangwei_beishui"] =
 				"zm_huoji__zm_jiangwei_beishui";
 		},
+	})
+
+
+	.addCharacter("zm_dengai|谋邓艾", {
+		basic: new Character({
+			sex: "male",
+			group: "wei",
+			hp: 4,
+			skills: ["zm_yanji", "zm_zaopi", "zm_kexian"],
+		}),
+		title: "克险图功",
+		dieVoice: "功高盖主，咎由自取……",
+		rank: "b",
+		rarity: "rare",
 	});

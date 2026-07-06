@@ -9,6 +9,11 @@ import tiaoxin from "./skills/tiaoxin.js";
 import zhiji from "./skills/zhiji.js";
 import huoji from "./skills/huoji.js";
 
+// 谋邓艾
+import yanji from "./skills/yanji.js";
+import zaopi from "./skills/zaopi.js";
+import kexian from "./skills/kexian.js";
+
 export default [
 	polu,
 	xuanwei,
@@ -18,4 +23,8 @@ export default [
 	tiaoxin,
 	zhiji,
 	huoji,
+
+	yanji,
+	zaopi,
+	kexian,
 ];
