@@ -45,6 +45,7 @@ export default new SkillData("zm_zaopi|凿辟", {
 			}
 			player.addMark("zm_zaopi_unlimited");
 		},
+		group: "zm_zaopi_unlimited",
 		subSkill: {
 			unlimited: {
 				intro: {
