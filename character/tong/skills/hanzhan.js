@@ -39,7 +39,6 @@ export default new SkillData("zm_hanzhan|酣战", {
 			player.removeCharge(3);
 		},
 		onuse(result, player) {
-			//@ts-expect-error 可以card.storage
 			result.card.storage = { zm_hanzhan: [] };
 		},
 		prompt: "消耗3蓄力视为使用【决斗】。每名角色首次出【杀】响应此【决斗】时，其摸三张牌。",

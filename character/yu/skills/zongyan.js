@@ -17,7 +17,6 @@ export default new SkillData("zm_zongyan|纵炎", {
 		},
 		viewAs: {
 			name: "huogong",
-			//@ts-expect-error 可以这样
 			storage: {
 				mg_zongyan: true,
 			},

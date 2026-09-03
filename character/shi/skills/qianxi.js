@@ -88,7 +88,6 @@ export default new SkillData("zm_qianxi|潜袭", {
 					await util.chooseToViewAs(player, {
 						viewAs: {
 							name: "sha",
-							//@ts-expect-error 可以加
 							storage: {
 								zm_qianxi: true,
 							},
