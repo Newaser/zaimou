@@ -146,4 +146,20 @@ export default new CharacterSubackage("zm_neng|再谋篇·能")
 		dieVoice: "功高盖主，咎由自取……",
 		rank: "s",
 		rarity: "legend",
+	})
+
+
+	.addCharacter("zm_zhonghui|谋钟会", {
+		basic: new Character({
+			sex: "male",
+			group: "wei",
+			hp: 4,
+			skills: ["zm_quanji", "zm_zili"],
+		}),
+		title: "欲谋自立",
+		dieVoice: "此谋虽败，亦远胜屈膝他人。",
+		victoryVoice: "吾掌魏军，公领蜀卒，来者共分天下！",
+		rank: "ap",
+		rarity: "epic",
 	});
+

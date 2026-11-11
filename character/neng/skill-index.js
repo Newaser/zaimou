@@ -14,6 +14,11 @@ import yanji from "./skills/yanji.js";
 import zaopi from "./skills/zaopi.js";
 import kexian from "./skills/kexian.js";
 
+// 谋钟会
+import quanji from "./skills/quanji.js";
+import zili from "./skills/zili.js";
+import paiyi from "./skills/paiyi.js";
+
 export default [
 	polu,
 	xuanwei,
@@ -27,4 +32,8 @@ export default [
 	yanji,
 	zaopi,
 	kexian,
+
+	quanji,
+	zili,
+	paiyi,
 ];
