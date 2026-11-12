@@ -59,7 +59,7 @@ export default new SkillData("zm_danshou|胆守", {
 					prompt: get.prompt("zm_danshou"),
 					prompt2: `弃置${x}张牌，令一名非当前回合角色回复1点体力`,
 					filterCard(card, player, event) {
-						return lib.filter.cardDiscardable(card, player, event?.name);
+						return lib.filter.cardDiscardable(card, player, event);
 					},
 					selectCard: x,
 					position: "he",
@@ -80,7 +80,7 @@ export default new SkillData("zm_danshou|胆守", {
 					prompt: get.prompt("zm_danshou", _status.currentPhase),
 					prompt2: `弃置${x}张牌，对其造成1点伤害`,
 					filterCard(card, player, event) {
-						return lib.filter.cardDiscardable(card, player, event?.name);
+						return lib.filter.cardDiscardable(card, player, event);
 					},
 					selectCard: x,
 					position: "he",

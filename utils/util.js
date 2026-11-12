@@ -182,3 +182,37 @@ export async function rejudge(player, event, rejudgings) {
 
 	return event.judge(rejudgings[0]) - event.judge(oldJudging);
 }
+
+/**
+ * 判断玩家是否有某种牌名的蓄谋牌
+ * @param {Player} player 玩家
+ * @param {string} name 牌名
+ * @returns {boolean} 判断结果
+ */
+export function hasXumouCard(player, name) {
+	const xumous = player.getCards("j", card => card.name == "xumou_jsrg");
+	return xumous.some(i => get.autoViewAs(i).cards[0].name == name);
+}
+
+/**
+ * 进行蓄谋
+ * @param {Player} player 蓄谋者
+ * @param {((card: Card)=> number)|undefined} cardAi 选牌AI
+ */
+export async function xumou(player, cardAi = undefined) {
+	if (player.countCards("h") > 0 && !player.isDisabledJudge()) {
+		/** @type {Result} */
+		const result = await player.chooseCard({
+			forced: true,
+			prompt: "蓄谋：请将一张手牌扣置于你的判定区内",
+			ai(card) {
+				if (cardAi) return cardAi(card);
+				if (player.hasValueTarget(card) && !hasXumouCard(player, card.name))
+					return player.getUseValue(card);
+				return -100 - get.value(card, player);
+			},
+		}).forResult();
+		//@ts-expect-error 蓄谋牌只能这样添加
+		await player.addJudge({ name: "xumou_jsrg" }, result.cards);
+	}
+}
